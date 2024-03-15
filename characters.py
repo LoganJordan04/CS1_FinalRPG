@@ -7,10 +7,12 @@ class Character:
         self.name = name
         self.health = health
         self.health_max = health
+        # Sets the default weapon
         self.weapon = fists
 
     def attack(self, target):
         target.health -= self.weapon.damage
+        # Avoids going below 0 health
         target.health = max(target.health, 0)
         target.health_bar.update()
         print(f"{self.name} dealt {self.weapon.damage} damage to {target.name} with {self.weapon.name}")
@@ -29,6 +31,11 @@ class Hero(Character):
     def drop(self):
         print(f"{self.name} dropped the {self.weapon.name}!")
         self.weapon = self.default_weapon
+
+    def heal(self):
+        self.health += 20
+        self.health_bar.update()
+        print(f"{self.name} healed 20 health!")
 
 
 class Enemy(Character):

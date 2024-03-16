@@ -5,7 +5,7 @@ esc = "\033[38;5;"
 # Original pixel art from La3eb https://opengameart.org/forumtopic/how-to-get-better-at-pixel-art
 # Hex to ANSI color converter https://ajalt.github.io/colormath/converter/
 # Trust the process...
-def enemy_sword1():
+def goblin_sword():
     print(f"{esc}251m█  {esc}244m█{esc}244m█")
     print(f"{esc}251m█ {esc}244m█{esc}244m█{esc}244m█{esc}244m█")
     print(f"{esc}251m█ {esc}22m█{esc}34m█{esc}22m█{esc}34m█")

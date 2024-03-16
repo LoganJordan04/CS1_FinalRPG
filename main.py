@@ -2,11 +2,11 @@ import os
 import random
 from characters import Hero, Enemy
 from weapons import iron_sword, weapon_choices
-from art import enemy_sword1
+from art import goblin_sword
 
 
 def main():
-    enemy_sword1()
+    goblin_sword()
 
     name = input("Enter the hero's name: ")
     hero = Hero(name, 100)

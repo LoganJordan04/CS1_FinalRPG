@@ -2,9 +2,12 @@ import os
 import random
 from characters import Hero, Enemy
 from weapons import iron_sword, weapon_choices
+from art import enemy_sword1
 
 
 def main():
+    enemy_sword1()
+
     name = input("Enter the hero's name: ")
     hero = Hero(name, 100)
     hero.equip(iron_sword)

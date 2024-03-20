@@ -155,15 +155,17 @@ class Hero(Character):
         # Player sprite error.
         else:
             term.pos(2, 7)
-            print("An error with the player sprite occurred!")
+            print("\033[91mAn error with the player sprite occurred!")
 
 
 class Enemy(Character):
-    def __init__(self, name, health, weapon, tier):
+    def __init__(self, name, health, weapon):
         super().__init__(name, health)
         self.weapon = weapon
         self.health_bar = HealthBar(self, color="red")
-        self.tier = tier
+
+    def reset_health(self):
+        self.health = self.health_max
 
     # Original enemy pixel art by La3eb https://opengameart.org/forumtopic/how-to-get-better-at-P-art
     def draw(self):
@@ -285,21 +287,24 @@ class Enemy(Character):
         # Enemy sprite error.
         else:
             term.pos(2, 37)
-            print("An error with the enemy sprite occurred!")
+            print("\033[91mAn error with the enemy sprite occurred!")
 
 
-# Enemies
-slime = Enemy("Slime", 30, fists, 1)
-rat = Enemy("Rat", 20, claws, 1)
-goblin = Enemy("Goblin", 50, fists, 1)
-skeleton = Enemy("Skeleton", 60, fists, 1)
-goblin_thief = Enemy("Goblin Thief", 110, dagger, 2)
-sword_warrior = Enemy("Sword Warrior", 130, iron_sword, 2)
-axe_warrior = Enemy("Axe Warrior", 120, iron_axe, 2)
-goblin_mage = Enemy("Goblin Mage", 90, staff, 3)
-undead_mage = Enemy("Undead Mage", 100, staff, 3)
-sword_knight = Enemy("Sword Knight", 180, iron_greatsword, 4)
-axe_knight = Enemy("Axe Knight", 170, iron_battleaxe, 4)
+# Enemy instances
+slime = Enemy("Slime", 30, fists)
+rat = Enemy("Rat", 20, claws)
+goblin = Enemy("Goblin", 50, fists)
+skeleton = Enemy("Skeleton", 60, fists)
+goblin_thief = Enemy("Goblin Thief", 110, dagger)
+sword_warrior = Enemy("Sword Warrior", 130, iron_sword)
+axe_warrior = Enemy("Axe Warrior", 120, iron_axe)
+goblin_mage = Enemy("Goblin Mage", 90, staff)
+undead_mage = Enemy("Undead Mage", 100, staff)
+sword_knight = Enemy("Sword Knight", 180, iron_greatsword)
+axe_knight = Enemy("Axe Knight", 170, iron_battleaxe)
 
-enemy_list = [slime, rat, goblin, skeleton, goblin_thief, sword_warrior, axe_warrior, goblin_mage, undead_mage,
-              sword_knight, axe_knight]
+# Lists for each tier of enemies.
+tier1_enemies = [slime, rat, goblin, skeleton]
+tier2_enemies = [slime, rat, goblin, skeleton, goblin_thief, sword_warrior, axe_warrior]
+tier3_enemies = [goblin_thief, sword_warrior, axe_warrior, goblin_mage, undead_mage]
+tier4_enemies = [goblin_mage, undead_mage, sword_knight, axe_knight]

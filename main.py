@@ -13,11 +13,41 @@ os.system("")
 def main():
     hero = Hero("You", 150)
 
-    # Clears the screen if ran in terminal.
+    hero.equip(iron_greatsword)
+
+    # Clears the screen.
     os.system("cls")
 
+    enemy_num = 1
+
     while True:
-        enemy = random.choice(enemy_list)
+        print(enemy_num)
+        # Picking a random enemy of the first tier.
+        if enemy_num <= 5:
+            enemy = random.choice(tier1_enemies)
+        # Picking a random enemy of the 1st and 2nd tiers after 5 enemies.
+        # The harder enemies are more likely to be picked.
+        elif enemy_num <= 10:
+            enemy_choice = random.choices(tier2_enemies, weights=[1, 1, 1, 1, 3, 3, 3])
+            # random.choices() returns a list, so this sets the enemy to the actual object.
+            enemy = enemy_choice[0]
+        # Picking a random enemy of the 2nd and 3rd tiers after 10 enemies.
+        elif enemy_num <= 15:
+            enemy_choice = random.choices(tier3_enemies, weights=[1, 1, 1, 3, 3])
+            enemy = enemy_choice[0]
+        # Picking a random enemy of the 3rd and 4th tiers after 15 enemies.
+        elif enemy_num <= 20:
+            enemy_choice = random.choices(tier4_enemies, weights=[1, 1, 2, 2])
+            enemy = enemy_choice[0]
+        # Enemy fallback and error print if enemy_num is outside of range.
+        else:
+            enemy = slime
+            print("\033[91mThe enemy num is outside range!")
+
+        # Sets the enemies health to max so an instance can occur more than once.
+        enemy.reset_health()
+        enemy.health_bar.update()
+
         Hero.draw(hero)
         Enemy.draw(enemy)
         hero.health_bar.draw()
@@ -60,6 +90,8 @@ def main():
                 hero.heal_amount_update()
                 print(f"\nPress A to attack.\nPress H to heal {hero.heal_amount} health.")
                 time.sleep(0.25)
+
+        enemy_num += 1
 
         if hero.health == 0:
             os.system("cls")

@@ -80,7 +80,7 @@ class Hero(Character):
         # Player sprite art when no weapon is equipped.
         if self.weapon == fists:
             # Hex to ANSI color converter https://ajalt.github.io/colormath/converter/
-            # Sets the cursor position.
+            # Sets the cursor position for correct sprite positioning.
             term.pos(2, 7)
             print(f"    {P(0, 231).c}{P(0, 231).c}")
             term.pos(3, 7)

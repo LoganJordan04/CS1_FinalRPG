@@ -6,7 +6,7 @@ class Weapon:
 
 # Weapon instances
 fists = Weapon("Fists", 3)
-claws = Weapon("Claws", 4)
+teeth = Weapon("Teeth", 4)
 dagger = Weapon("Dagger", 5)
 iron_sword = Weapon("Iron Sword", 6)
 iron_axe = Weapon("Iron Axe", 8)

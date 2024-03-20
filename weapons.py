@@ -4,7 +4,7 @@ class Weapon:
         self.damage = damage
 
 
-# Weapons
+# Weapon instances
 fists = Weapon("Fists", 3)
 claws = Weapon("Claws", 4)
 dagger = Weapon("Dagger", 5)

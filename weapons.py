@@ -1,4 +1,10 @@
+"""
+This script determines the class and instances of weapons.
+"""
+
+
 class Weapon:
+    """A class the defines weapons."""
     def __init__(self, name, damage):
         self.name = name
         self.damage = damage

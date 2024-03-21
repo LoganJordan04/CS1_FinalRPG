@@ -1,8 +1,13 @@
+"""
+This script determines the classes, methods, and instances of the hero and enemies.
+"""
+
 from weapons import *
 from healthbar import *
 
 
 class Character:
+    """A class that defines the attributes of the characters."""
     def __init__(self, name, health):
         self.name = name
         self.health = health
@@ -20,10 +25,11 @@ class Character:
         print(f"{self.name} dealt {self.weapon.damage} damage to {target.name} with {self.weapon.name}!")
 
 
-# P (short for Pixel) class creation which allows for the printing of 2 separate vertical colored blocks.
-# ANSI escape code resource https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
-# Hex to ANSI color converter https://ajalt.github.io/colormath/converter/
 class P:
+    """A class which allows for the printing of 2 separate vertical colored unicode blocks."""
+    # ANSI escape code resource https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
+    # Hex to ANSI color converter https://ajalt.github.io/colormath/converter/
+
     # t = top pixel, b = bottom pixel.
     def __init__(self, t, b):
         # \033[ is the ANSI escape code which allows color printing.
@@ -39,6 +45,7 @@ class P:
 
 
 class Hero(Character):
+    """A Character subclass that defines the attributes of the hero or player."""
     def __init__(self, name, health, potions, coins):
         super().__init__(name, health)
         self.potions = potions
@@ -52,6 +59,7 @@ class Hero(Character):
         return f"{self.name} equipped {self.weapon.name}!"
 
     def heal(self):
+        """Heals the player but doesn't go over max health."""
         if self.potions <= 0:
             pass
         else:
@@ -64,6 +72,7 @@ class Hero(Character):
             self.potions -= 1
 
     def heal_update(self):
+        """Updates the heal amount text."""
         if self.health >= self.health_max - 125:
             self.heal_amount = self.health_max - self.health
         else:
@@ -78,9 +87,11 @@ class Hero(Character):
             else:
                 print(f"{self.name} healed {self.heal_amount} health!")
 
-    # Original chicken player pixel art by handsofhope
-    # https://www.reddit.com/r/PixelArt/comments/fqu1ri/wanted_to_take_a_stab_at_restricting_size_8x8_and/
     def draw(self):
+        """Prints the pixel art for the player for each equipped weapon."""
+        # Original chicken player pixel art by handsofhope
+        # https://www.reddit.com/r/PixelArt/comments/fqu1ri/wanted_to_take_a_stab_at_restricting_size_8x8_and/
+
         # Player sprite art when no weapon is equipped.
         if self.weapon == fists:
             term.pos(2, 7)
@@ -168,6 +179,7 @@ class Hero(Character):
 
 
 class Enemy(Character):
+    """A Character subclass that defines the attributes of enemies."""
     def __init__(self, name, health, weapon, coins):
         super().__init__(name, health)
         self.weapon = weapon
@@ -177,8 +189,10 @@ class Enemy(Character):
     def reset_health(self):
         self.health = self.health_max
 
-    # Original enemy pixel art by La3eb https://opengameart.org/forumtopic/how-to-get-better-at-P-art
     def draw(self):
+        """Prints the pixel art for the player for each equipped weapon."""
+        # Original enemy pixel art by La3eb https://opengameart.org/forumtopic/how-to-get-better-at-P-art
+
         # Slime sprite art.
         if self.name == "Slime":
             term.pos(2, 37)

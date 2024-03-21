@@ -1,7 +1,12 @@
+"""
+This script determines the class and methods of the healthbar.
+"""
+
 import term
 
 
 class HealthBar:
+    """A class that defines all functions of the health bar."""
     symbol_remaining = "█"
     symbol_lost = "_"
     barrier = "|"
@@ -22,6 +27,7 @@ class HealthBar:
         self.current_value = self.entity.health
 
     def draw(self):
+        """Prints the health bar."""
         remaining_bars = round(self.current_value / self.max_value * self.length)
         lost_bars = self.length - remaining_bars
         if self.entity.name == "You":

@@ -1,3 +1,10 @@
+"""
+The entry point of Wings of Redemption RPG game.
+
+This script runs the main RPG game called wings of redemption. The user will battle 20 enemies of increasing difficulty
+using single keystrokes as input when prompted by the program.
+"""
+
 import os
 import sys
 import subprocess
@@ -10,6 +17,12 @@ os.system("")
 
 
 def battle_print(hero, enemy, start, healing):
+    """Prints the game screen when battling an enemy.
+    :param hero object
+    :param enemy object
+    :param start bool
+    :param healing bool
+    """
     if start:
         # Clears the screen
         os.system("cls")
@@ -55,6 +68,10 @@ def battle_print(hero, enemy, start, healing):
 
 
 def drop_print(hero, enemy):
+    """Prints special text when an enemy drops their weapon.
+    :param hero object
+    :param enemy object
+    """
     print(f"\n{enemy.name} dropped {enemy.weapon.name}! Press E to equip it.")
     # Comparing the current weapon and dropped weapon.
     print(f"{hero.weapon.name} damage: {hero.weapon.damage} -> "
@@ -62,6 +79,13 @@ def drop_print(hero, enemy):
 
 
 def advance_print(hero, enemy, is_collected, is_dropped, is_buying):
+    """Prints the game screen after an enemy is defeated.
+    :param hero object
+    :param enemy object
+    :param is_collected bool
+    :param is_dropped bool
+    :param is_buying bool
+    """
     if not is_buying:
         os.system("cls")
         Hero.draw(hero)
@@ -98,6 +122,7 @@ def advance_print(hero, enemy, is_collected, is_dropped, is_buying):
 
 
 def main():
+    """Main function."""
     print("""
                 ▄█     █▄   ▄█  ███▄▄▄▄      ▄██████▄     ▄████████       ▄██████▄     ▄████████                     
                ███     ███ ███  ███▀▀▀██▄   ███    ███   ███    ███      ███    ███   ███    ███                     

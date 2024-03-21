@@ -49,7 +49,7 @@ class Hero(Character):
 
     def equip(self, weapon):
         self.weapon = weapon
-        print(f"\n{self.name} equipped {self.weapon.name}!")
+        return f"{self.name} equipped {self.weapon.name}!"
 
     def heal(self):
         if self.potions <= 0:

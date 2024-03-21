@@ -39,35 +39,43 @@ class P:
 
 
 class Hero(Character):
-    def __init__(self, name, health):
+    def __init__(self, name, health, potions):
         super().__init__(name, health)
+        self.potions = potions
         self.default_weapon = self.weapon
         self.health_bar = HealthBar(self, color="green")
         self.heal_amount = 0
 
     def equip(self, weapon):
         self.weapon = weapon
-        return f"{self.name} equipped {self.weapon.name}!"
+        print(f"\n{self.name} equipped {self.weapon.name}!")
 
     def heal(self):
-        if self.health >= self.health_max - 50:
-            self.heal_amount = self.health_max - self.health
+        if self.potions <= 0:
+            pass
         else:
-            self.heal_amount = 50
-        self.health += self.heal_amount
-        self.health_bar.update()
+            if self.health >= self.health_max - 50:
+                self.heal_amount = self.health_max - self.health
+            else:
+                self.heal_amount = 50
+            self.health += self.heal_amount
+            self.health_bar.update()
+            self.potions -= 1
 
-    def heal_amount_update(self):
+    def heal_update(self):
         if self.health >= self.health_max - 50:
             self.heal_amount = self.health_max - self.health
         else:
             self.heal_amount = 50
 
     def heal_print(self):
-        if self.heal_amount == 0:
-            print(f"{self.name} healed {self.heal_amount} health!\nThat was a waste...")
+        if self.potions <= 0:
+            print(f"You are all out of potions!")
         else:
-            print(f"{self.name} healed {self.heal_amount} health!")
+            if self.heal_amount == 0:
+                print(f"{self.name} healed {self.heal_amount} health!\nThat was a waste...")
+            else:
+                print(f"{self.name} healed {self.heal_amount} health!")
 
     # Original chicken player pixel art by handsofhope
     # https://www.reddit.com/r/PixelArt/comments/fqu1ri/wanted_to_take_a_stab_at_restricting_size_8x8_and/
@@ -154,7 +162,7 @@ class Hero(Character):
             print(f" {P(231, 215).c}{P(231, 0).c}{P(231, 0).c}{P(231, 0).c}{P(231, 215).c}{P(244, 244).c}")
         # Player sprite error.
         else:
-            term.pos(2, 7)
+            term.pos(1, 7)
             print("\033[91mAn error with the player sprite occurred!")
 
 
@@ -286,13 +294,13 @@ class Enemy(Character):
             print(f"  {P(244, 244).c}{P(251, 251).c}{P(251, 0).c}{P(251, 0).c}{P(251, 251).c}")
         # Enemy sprite error.
         else:
-            term.pos(2, 37)
+            term.pos(1, 37)
             print("\033[91mAn error with the enemy sprite occurred!")
 
 
 # Enemy instances
 slime = Enemy("Slime", 30, fists)
-rat = Enemy("Rat", 20, claws)
+rat = Enemy("Rat", 20, teeth)
 goblin = Enemy("Goblin", 50, fists)
 skeleton = Enemy("Skeleton", 60, fists)
 goblin_thief = Enemy("Goblin Thief", 110, dagger)
@@ -300,8 +308,8 @@ sword_warrior = Enemy("Sword Warrior", 130, iron_sword)
 axe_warrior = Enemy("Axe Warrior", 120, iron_axe)
 goblin_mage = Enemy("Goblin Mage", 90, staff)
 undead_mage = Enemy("Undead Mage", 100, staff)
-sword_knight = Enemy("Sword Knight", 180, iron_greatsword)
-axe_knight = Enemy("Axe Knight", 170, iron_battleaxe)
+sword_knight = Enemy("Sword Knight", 160, iron_greatsword)
+axe_knight = Enemy("Axe Knight", 150, iron_battleaxe)
 
 # Lists for each tier of enemies.
 tier1_enemies = [slime, rat, goblin, skeleton]

@@ -3,7 +3,6 @@ import sys
 import subprocess
 import time
 import random
-
 from characters import *
 
 # Fix if the console doesn't print the color properly.
@@ -11,17 +10,14 @@ os.system("")
 
 
 def main():
-    hero = Hero("You", 150)
-
-    hero.equip(iron_greatsword)
-
-    # Clears the screen.
-    os.system("cls")
+    hero = Hero("You", 150, 10)
 
     enemy_num = 1
 
     while True:
-        print(enemy_num)
+        # Clears the screen.
+        os.system("cls")
+
         # Picking a random enemy of the first tier.
         if enemy_num <= 5:
             enemy = random.choice(tier1_enemies)
@@ -58,7 +54,12 @@ def main():
             print(f"{hero.name} encountered an {enemy.name}!")
         else:
             print(f"{hero.name} encountered a {enemy.name}!")
-        print(f"\nPress A to attack.\nPress H to heal {hero.heal_amount} health.")
+        # Potion amount print.
+        print(f"\nYou have {hero.potions} potions.")
+        if hero.potions > 0:
+            print(f"\nPress A to attack.\nPress H to heal {hero.heal_amount} health.")
+        else:
+            print(f"\nPress A to attack.")
 
         while hero.health > 0 and enemy.health > 0:
             if keyboard.is_pressed("a"):
@@ -73,8 +74,12 @@ def main():
                 print("\n+-------------------------------------------------+")
                 hero.attack_print(enemy)
                 enemy.attack_print(hero)
-                hero.heal_amount_update()
-                print(f"\nPress A to attack.\nPress H to heal {hero.heal_amount} health.")
+                hero.heal_update()
+                print(f"\nYou have {hero.potions} potions.")
+                if hero.potions > 0:
+                    print(f"\nPress A to attack.\nPress H to heal {hero.heal_amount} health.")
+                else:
+                    print(f"\nPress A to attack.")
                 # Delay to fix problems with rapid inputs.
                 time.sleep(0.25)
             elif keyboard.is_pressed("h"):
@@ -87,17 +92,39 @@ def main():
                 enemy.health_bar.draw()
                 print("\n+-------------------------------------------------+")
                 hero.heal_print()
-                hero.heal_amount_update()
-                print(f"\nPress A to attack.\nPress H to heal {hero.heal_amount} health.")
+                hero.heal_update()
+                print(f"\nYou have {hero.potions} potions.")
+                if hero.potions > 0:
+                    print(f"\nPress A to attack.\nPress H to heal {hero.heal_amount} health.")
+                else:
+                    print(f"\nPress A to attack.")
                 time.sleep(0.25)
+
+        os.system("cls")
+        Hero.draw(hero)
+        hero.health_bar.draw()
+        print("\n+-------------------------------------------------+")
+        item_drop = random.randint(1, 2)
+        if (item_drop == 1 and enemy.weapon.name != "Fists" and enemy.weapon.name != "Teeth"
+                and enemy.weapon.name != hero.weapon.name):
+            print(f"{enemy.name} dropped {enemy.weapon.name}! Press E to equip it.\nPress Enter to advance.")
+            if keyboard.read_key() == "e":
+                hero.equip(enemy.weapon)
+                keyboard.wait("enter")
+            elif keyboard.read_key() == "enter":
+                pass
+            time.sleep(0.25)
+        else:
+            print(f"Press Enter to advance.")
+            if keyboard.read_key() == "enter":
+                pass
+            time.sleep(0.25)
 
         enemy_num += 1
 
         if hero.health == 0:
             os.system("cls")
             return False
-
-        os.system("cls")
 
 
 if __name__ == "__main__":

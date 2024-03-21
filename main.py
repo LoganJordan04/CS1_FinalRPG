@@ -10,7 +10,7 @@ os.system("")
 
 
 def main():
-    hero = Hero("You", 150, 10)
+    hero = Hero("You", 150, 10, 0)
 
     enemy_num = 1
 
@@ -104,21 +104,47 @@ def main():
         Hero.draw(hero)
         hero.health_bar.draw()
         print("\n+-------------------------------------------------+")
+        hero.coins += enemy.coins
+        print(f"{enemy.name} dropped {enemy.coins} coins! You now have {hero.coins} coins.")
+
+        # 1/2 chance for an enemy to drop their weapon.
         item_drop = random.randint(1, 2)
+        # Weapon can't be equipped if its fists, teeth, or hero is already holding it.
         if (item_drop == 1 and enemy.weapon.name != "Fists" and enemy.weapon.name != "Teeth"
                 and enemy.weapon.name != hero.weapon.name):
-            print(f"{enemy.name} dropped {enemy.weapon.name}! Press E to equip it.\nPress Enter to advance.")
-            if keyboard.read_key() == "e":
-                hero.equip(enemy.weapon)
-                keyboard.wait("enter")
-            elif keyboard.read_key() == "enter":
-                pass
-            time.sleep(0.25)
+            print(f"\n{enemy.name} also dropped {enemy.weapon.name}! Press E to equip it."
+                  f"\nPress B to buy a potion for 20 coins.\nPress Enter to advance.")
+            while keyboard.read_key() != "enter":
+                # Equipping the dropped weapon.
+                if keyboard.read_key() == "e":
+                    hero.equip(enemy.weapon)
+                    time.sleep(0.25)
+                # Buying a potion if the player has sufficient coins.
+                elif keyboard.read_key() == "b":
+                    if hero.coins >= 20:
+                        hero.potions += 1
+                        print(f"\nYou now have {hero.potions} potions.")
+                        time.sleep(0.25)
+                    else:
+                        print("\nYou don't have enough to buy a potion!")
+                        time.sleep(0.25)
+                # Hitting enter breaks the loop to advance the game.
+                elif keyboard.read_key() == "enter":
+                    break
+        # If the player didn't get a weapon drop.
         else:
-            print(f"Press Enter to advance.")
-            if keyboard.read_key() == "enter":
-                pass
-            time.sleep(0.25)
+            print(f"\nPress B to buy a potion for 20 coins.\nPress Enter to advance.")
+            while keyboard.read_key() != "enter":
+                if keyboard.read_key() == "b":
+                    if hero.coins >= 20:
+                        hero.potions += 1
+                        print(f"\nYou now have {hero.potions} potions.")
+                        time.sleep(0.25)
+                    else:
+                        print("\nYou don't have enough to buy a potion!")
+                        time.sleep(0.25)
+                elif keyboard.read_key() == "enter":
+                    break
 
         enemy_num += 1
 

@@ -5,11 +5,11 @@ class Weapon:
 
 
 # Weapon instances
-fists = Weapon("Fists", 3)
-teeth = Weapon("Teeth", 4)
-dagger = Weapon("Dagger", 5)
-iron_sword = Weapon("Iron Sword", 6)
-iron_axe = Weapon("Iron Axe", 8)
-staff = Weapon("Staff", 10)
-iron_greatsword = Weapon("Iron Greatsword", 12)
-iron_battleaxe = Weapon("Iron Battleaxe", 14)
+fists = Weapon("Fists", 5)
+teeth = Weapon("Teeth", 6)
+dagger = Weapon("Dagger", 7)
+iron_sword = Weapon("Iron Sword", 8)
+iron_axe = Weapon("Iron Axe", 10)
+staff = Weapon("Staff", 12)
+iron_greatsword = Weapon("Iron Greatsword", 14)
+iron_battleaxe = Weapon("Iron Battleaxe", 16)

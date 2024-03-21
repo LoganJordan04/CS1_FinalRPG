@@ -39,9 +39,10 @@ class P:
 
 
 class Hero(Character):
-    def __init__(self, name, health, potions):
+    def __init__(self, name, health, potions, coins):
         super().__init__(name, health)
         self.potions = potions
+        self.coins = coins
         self.default_weapon = self.weapon
         self.health_bar = HealthBar(self, color="green")
         self.heal_amount = 0
@@ -167,9 +168,10 @@ class Hero(Character):
 
 
 class Enemy(Character):
-    def __init__(self, name, health, weapon):
+    def __init__(self, name, health, weapon, coins):
         super().__init__(name, health)
         self.weapon = weapon
+        self.coins = coins
         self.health_bar = HealthBar(self, color="red")
 
     def reset_health(self):
@@ -299,17 +301,17 @@ class Enemy(Character):
 
 
 # Enemy instances
-slime = Enemy("Slime", 30, fists)
-rat = Enemy("Rat", 20, teeth)
-goblin = Enemy("Goblin", 50, fists)
-skeleton = Enemy("Skeleton", 60, fists)
-goblin_thief = Enemy("Goblin Thief", 110, dagger)
-sword_warrior = Enemy("Sword Warrior", 130, iron_sword)
-axe_warrior = Enemy("Axe Warrior", 120, iron_axe)
-goblin_mage = Enemy("Goblin Mage", 90, staff)
-undead_mage = Enemy("Undead Mage", 100, staff)
-sword_knight = Enemy("Sword Knight", 160, iron_greatsword)
-axe_knight = Enemy("Axe Knight", 150, iron_battleaxe)
+slime = Enemy("Slime", 30, fists, 6)
+rat = Enemy("Rat", 20, teeth, 4)
+goblin = Enemy("Goblin", 50, fists, 10)
+skeleton = Enemy("Skeleton", 60, fists, 8)
+goblin_thief = Enemy("Goblin Thief", 110, dagger, 15)
+sword_warrior = Enemy("Sword Warrior", 130, iron_sword, 12)
+axe_warrior = Enemy("Axe Warrior", 120, iron_axe, 13)
+goblin_mage = Enemy("Goblin Mage", 90, staff, 20)
+undead_mage = Enemy("Undead Mage", 100, staff, 17)
+sword_knight = Enemy("Sword Knight", 160, iron_greatsword, 32)
+axe_knight = Enemy("Axe Knight", 150, iron_battleaxe, 31)
 
 # Lists for each tier of enemies.
 tier1_enemies = [slime, rat, goblin, skeleton]

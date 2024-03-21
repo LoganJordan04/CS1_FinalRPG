@@ -10,7 +10,7 @@ os.system("")
 
 
 def main():
-    hero = Hero("You", 150, 10, 0)
+    hero = Hero("You", 150, 5, 0)
 
     enemy_num = 1
 
@@ -100,6 +100,10 @@ def main():
                     print(f"\nPress A to attack.")
                 time.sleep(0.25)
 
+        if hero.health == 0:
+            os.system("cls")
+            return False
+
         os.system("cls")
         Hero.draw(hero)
         hero.health_bar.draw()
@@ -112,8 +116,8 @@ def main():
         # Weapon can't be equipped if its fists, teeth, or hero is already holding it.
         if (item_drop == 1 and enemy.weapon.name != "Fists" and enemy.weapon.name != "Teeth"
                 and enemy.weapon.name != hero.weapon.name):
-            print(f"\n{enemy.name} also dropped {enemy.weapon.name}! Press E to equip it."
-                  f"\nPress B to buy a potion for 20 coins.\nPress Enter to advance.")
+            print(f"\n{enemy.name} also dropped {enemy.weapon.name}! Press E to equip it.\n"
+                  f"Press B to buy a potion for 20 coins.\nPress Enter to advance.")
             while keyboard.read_key() != "enter":
                 # Equipping the dropped weapon.
                 if keyboard.read_key() == "e":
@@ -123,6 +127,7 @@ def main():
                 elif keyboard.read_key() == "b":
                     if hero.coins >= 20:
                         hero.potions += 1
+                        hero.coins -= 20
                         print(f"\nYou now have {hero.potions} potions.")
                         time.sleep(0.25)
                     else:
@@ -138,6 +143,7 @@ def main():
                 if keyboard.read_key() == "b":
                     if hero.coins >= 20:
                         hero.potions += 1
+                        hero.coins -= 20
                         print(f"\nYou now have {hero.potions} potions.")
                         time.sleep(0.25)
                     else:
@@ -147,10 +153,6 @@ def main():
                     break
 
         enemy_num += 1
-
-        if hero.health == 0:
-            os.system("cls")
-            return False
 
 
 if __name__ == "__main__":

@@ -9,7 +9,7 @@ from characters import *
 os.system("")
 
 
-def battle_print(hero, enemy, start):
+def battle_print(hero, enemy, start, healing):
     if start:
         # Clears the screen
         os.system("cls")
@@ -31,14 +31,19 @@ def battle_print(hero, enemy, start):
         else:
             print(f"\nPress A to attack.")
     else:
+        if healing:
+            hero.heal()
         os.system("cls")
         Hero.draw(hero)
         Enemy.draw(enemy)
         hero.health_bar.draw()
         enemy.health_bar.draw()
         print("\n+-------------------------------------------------+")
-        hero.attack_print(enemy)
-        enemy.attack_print(hero)
+        if healing:
+            hero.heal_print()
+        else:
+            hero.attack_print(enemy)
+            enemy.attack_print(hero)
         # Updates the healing amount.
         hero.heal_update()
         print(f"\nYou have {hero.potions} potions.")
@@ -93,7 +98,7 @@ def advance_print(hero, enemy, is_collected, is_dropped, is_buying):
 
 
 def main():
-    hero = Hero("You", 150, 5, 0)
+    hero = Hero("You", 200, 5, 0)
 
     enemy_num = 1
 
@@ -125,18 +130,17 @@ def main():
         enemy.health_bar.update()
 
         # Initial battle screen printing.
-        battle_print(hero, enemy, start=True)
+        battle_print(hero, enemy, start=True, healing=False)
 
         while hero.health > 0 and enemy.health > 0:
             if keyboard.is_pressed("a"):
                 hero.attack(enemy)
                 enemy.attack(hero)
-                battle_print(hero, enemy, start=False)
+                battle_print(hero, enemy, start=False, healing=False)
                 # Delay to fix problems with rapid inputs.
                 time.sleep(0.25)
             elif keyboard.is_pressed("h"):
-                hero.heal()
-                battle_print(hero, enemy, start=False)
+                battle_print(hero, enemy, start=False, healing=True)
                 time.sleep(0.25)
 
         if hero.health == 0:
@@ -164,7 +168,7 @@ def main():
                     advance_print(hero, enemy, is_collected, is_dropped, is_buying=False)
                     time.sleep(0.25)
                 # Buying a potion if the player has sufficient coins.
-                if keyboard.read_key() == "b":
+                elif keyboard.read_key() == "b":
                     advance_print(hero, enemy, is_collected, is_dropped, is_buying=True)
                     time.sleep(0.25)
                 # Hitting enter breaks the loop to advance the game.

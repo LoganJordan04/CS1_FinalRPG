@@ -98,95 +98,167 @@ def advance_print(hero, enemy, is_collected, is_dropped, is_buying):
 
 
 def main():
-    hero = Hero("You", 200, 5, 0)
+    print("""
+                ▄█     █▄   ▄█  ███▄▄▄▄      ▄██████▄     ▄████████       ▄██████▄     ▄████████                     
+               ███     ███ ███  ███▀▀▀██▄   ███    ███   ███    ███      ███    ███   ███    ███                     
+               ███     ███ ███▌ ███   ███   ███    █▀    ███    █▀       ███    ███   ███    █▀                      
+               ███     ███ ███▌ ███   ███  ▄███          ███             ███    ███  ▄███▄▄▄                         
+               ███     ███ ███▌ ███   ███ ▀▀███ ████▄  ▀███████████      ███    ███ ▀▀███▀▀▀                         
+               ███     ███ ███  ███   ███   ███    ███          ███      ███    ███   ███                            
+               ███ ▄█▄ ███ ███  ███   ███   ███    ███    ▄█    ███      ███    ███   ███                            
+                ▀███▀███▀  █▀    ▀█   █▀    ████████▀   ▄████████▀        ▀██████▀    ███                            
+                                                                                                                     
+   ▄████████    ▄████████ ████████▄     ▄████████   ▄▄▄▄███▄▄▄▄      ▄███████▄     ███      ▄█   ▄██████▄  ███▄▄▄▄   
+  ███    ███   ███    ███ ███   ▀███   ███    ███ ▄██▀▀▀███▀▀▀██▄   ███    ███ ▀█████████▄ ███  ███    ███ ███▀▀▀██▄ 
+  ███    ███   ███    █▀  ███    ███   ███    █▀  ███   ███   ███   ███    ███    ▀███▀▀██ ███▌ ███    ███ ███   ███ 
+ ▄███▄▄▄▄██▀  ▄███▄▄▄     ███    ███  ▄███▄▄▄     ███   ███   ███   ███    ███     ███   ▀ ███▌ ███    ███ ███   ███ 
+▀▀███▀▀▀▀▀   ▀▀███▀▀▀     ███    ███ ▀▀███▀▀▀     ███   ███   ███ ▀█████████▀      ███     ███▌ ███    ███ ███   ███ 
+▀███████████   ███    █▄  ███    ███   ███    █▄  ███   ███   ███   ███            ███     ███  ███    ███ ███   ███ 
+  ███    ███   ███    ███ ███   ▄███   ███    ███ ███   ███   ███   ███            ███     ███  ███    ███ ███   ███ 
+  ███    ███   ██████████ ████████▀    ██████████  ▀█   ███   █▀   ▄████▀         ▄████▀   █▀    ▀██████▀   ▀█   █▀  
+  ███    ███                                                                                                         
 
-    enemy_num = 1
 
-    while True:
-        # Picking a random enemy of the first tier.
-        if enemy_num <= 5:
-            enemy = random.choice(tier1_enemies)
-        # Picking a random enemy of the 1st and 2nd tiers after 5 enemies.
-        # The harder enemies are more likely to be picked.
-        elif enemy_num <= 10:
-            enemy_choice = random.choices(tier2_enemies, weights=[1, 1, 1, 1, 3, 3, 3])
-            # random.choices() returns a list, so this sets the enemy to the actual object.
-            enemy = enemy_choice[0]
-        # Picking a random enemy of the 2nd and 3rd tiers after 10 enemies.
-        elif enemy_num <= 15:
-            enemy_choice = random.choices(tier3_enemies, weights=[1, 1, 1, 3, 3])
-            enemy = enemy_choice[0]
-        # Picking a random enemy of the 3rd and 4th tiers after 15 enemies.
-        elif enemy_num <= 20:
-            enemy_choice = random.choices(tier4_enemies, weights=[1, 1, 2, 2])
-            enemy = enemy_choice[0]
-        # Enemy fallback and error print if enemy_num is outside of range.
-        else:
-            enemy = slime
-            print("\033[91mThe enemy num is outside range!")
+                                     Equipped with fists and 5 healing potions, 
+             you will battle 20 enemies of increasing difficulty as a chicken to take back what's yours.
+                
+                                             Press Enter to continue...
+    """)
+    keyboard.wait("enter")
 
-        # Sets the enemies health to max so an instance can occur more than once.
-        enemy.reset_health()
-        enemy.health_bar.update()
+    restart = True
 
-        # Initial battle screen printing.
-        battle_print(hero, enemy, start=True, healing=False)
+    while restart:
+        hero = Hero("You", 200, 5, 0)
+        alive = True
 
-        while hero.health > 0 and enemy.health > 0:
-            if keyboard.is_pressed("a"):
-                hero.attack(enemy)
-                enemy.attack(hero)
-                battle_print(hero, enemy, start=False, healing=False)
-                # Delay to fix problems with rapid inputs.
-                time.sleep(0.25)
-            elif keyboard.is_pressed("h"):
-                battle_print(hero, enemy, start=False, healing=True)
-                time.sleep(0.25)
+        enemy_num = 1
 
-        if hero.health == 0:
+        while alive:
+            # Picking a random enemy of the first tier.
+            if enemy_num <= 5:
+                enemy = random.choice(tier1_enemies)
+            # Picking a random enemy of the 1st and 2nd tiers after 5 enemies.
+            # The harder enemies are more likely to be picked.
+            elif enemy_num <= 10:
+                enemy_choice = random.choices(tier2_enemies, weights=[1, 1, 1, 1, 3, 3, 3])
+                # random.choices() returns a list, so this sets the enemy to the actual object.
+                enemy = enemy_choice[0]
+            # Picking a random enemy of the 2nd and 3rd tiers after 10 enemies.
+            elif enemy_num <= 15:
+                enemy_choice = random.choices(tier3_enemies, weights=[1, 1, 1, 3, 3])
+                enemy = enemy_choice[0]
+            # Picking a random enemy of the 3rd and 4th tiers after 15 enemies.
+            elif enemy_num <= 20:
+                enemy_choice = random.choices(tier4_enemies, weights=[1, 1, 2, 2])
+                enemy = enemy_choice[0]
+            # Ending the game after 20 enemies.
+            else:
+                break
+
+            # Sets the enemies health to max so an instance can occur more than once.
+            enemy.reset_health()
+            enemy.health_bar.update()
+
+            # Initial battle screen printing.
+            battle_print(hero, enemy, start=True, healing=False)
+
+            while hero.health > 0 and enemy.health > 0:
+                if keyboard.is_pressed("a"):
+                    hero.attack(enemy)
+                    enemy.attack(hero)
+                    battle_print(hero, enemy, start=False, healing=False)
+                    # Delay to fix problems with rapid inputs.
+                    time.sleep(0.25)
+                elif keyboard.is_pressed("h"):
+                    battle_print(hero, enemy, start=False, healing=True)
+                    time.sleep(0.25)
+
+            if hero.health == 0:
+                alive = False
+                break
+
+            # This sets the value for the coin drop text to be printed.
+            is_collected = False
+
+            # 1/2 chance for an enemy to drop their weapon.
+            item_drop = random.randint(1, 2)
+
+            # Weapon can't be equipped if its fists, teeth, or hero is already holding it.
+            if (item_drop == 1 and enemy.weapon.name != "Fists" and enemy.weapon.name != "Teeth"
+                    and enemy.weapon.name != hero.weapon.name):
+                is_dropped = True
+                advance_print(hero, enemy, is_collected, is_dropped, is_buying=False)
+                # Collecting the coin drop.
+                is_collected = True
+                while keyboard.read_key() != "enter":
+                    # Equipping the dropped weapon.
+                    if keyboard.read_key() == "e" and enemy.weapon.name != hero.weapon.name:
+                        is_dropped = False
+                        hero.equip(enemy.weapon)
+                        advance_print(hero, enemy, is_collected, is_dropped, is_buying=False)
+                        time.sleep(0.25)
+                    # Buying a potion if the player has sufficient coins.
+                    elif keyboard.read_key() == "b":
+                        advance_print(hero, enemy, is_collected, is_dropped, is_buying=True)
+                        time.sleep(0.25)
+                    # Hitting enter breaks the loop to advance the game.
+                    elif keyboard.read_key() == "enter":
+                        break
+            # If the player didn't get a weapon drop.
+            else:
+                is_dropped = False
+                advance_print(hero, enemy, is_collected, is_dropped, is_buying=False)
+                is_collected = True
+                while keyboard.read_key() != "enter":
+                    if keyboard.read_key() == "b":
+                        advance_print(hero, enemy, is_collected, is_dropped, is_buying=True)
+                        time.sleep(0.25)
+                    elif keyboard.read_key() == "enter":
+                        break
+
+            enemy_num += 1
+
+        # Printing the loss screen.
+        if not alive:
             os.system("cls")
-            return False
-
-        # This sets the value for the coin drop text to be printed.
-        is_collected = False
-
-        # 1/2 chance for an enemy to drop their weapon.
-        item_drop = random.randint(1, 2)
-
-        # Weapon can't be equipped if its fists, teeth, or hero is already holding it.
-        if (item_drop == 1 and enemy.weapon.name != "Fists" and enemy.weapon.name != "Teeth"
-                and enemy.weapon.name != hero.weapon.name):
-            is_dropped = True
-            advance_print(hero, enemy, is_collected, is_dropped, is_buying=False)
-            # Collecting the coin drop.
-            is_collected = True
-            while keyboard.read_key() != "enter":
-                # Equipping the dropped weapon.
-                if keyboard.read_key() == "e" and enemy.weapon.name != hero.weapon.name:
-                    is_dropped = False
-                    hero.equip(enemy.weapon)
-                    advance_print(hero, enemy, is_collected, is_dropped, is_buying=False)
-                    time.sleep(0.25)
-                # Buying a potion if the player has sufficient coins.
-                elif keyboard.read_key() == "b":
-                    advance_print(hero, enemy, is_collected, is_dropped, is_buying=True)
-                    time.sleep(0.25)
-                # Hitting enter breaks the loop to advance the game.
-                elif keyboard.read_key() == "enter":
-                    break
-        # If the player didn't get a weapon drop.
-        else:
-            is_dropped = False
-            advance_print(hero, enemy, is_collected, is_dropped, is_buying=False)
-            is_collected = True
-            while keyboard.read_key() != "enter":
-                if keyboard.read_key() == "b":
-                    advance_print(hero, enemy, is_collected, is_dropped, is_buying=True)
-                    time.sleep(0.25)
-                elif keyboard.read_key() == "enter":
-                    break
-
-        enemy_num += 1
+            print("""\033[91m
+    ▓██   ██▓ ▒█████   █    ██     ██▓     ▒█████    ██████ ▓█████  ▐██▌ 
+     ▒██  ██▒▒██▒  ██▒ ██  ▓██▒   ▓██▒    ▒██▒  ██▒▒██    ▒ ▓█   ▀  ▐██▌ 
+      ▒██ ██░▒██░  ██▒▓██  ▒██░   ▒██░    ▒██░  ██▒░ ▓██▄   ▒███    ▐██▌ 
+      ░ ▐██▓░▒██   ██░▓▓█  ░██░   ▒██░    ▒██   ██░  ▒   ██▒▒▓█  ▄  ▓██▒ 
+      ░ ██▒▓░░ ████▓▒░▒▒█████▓    ░██████▒░ ████▓▒░▒██████▒▒░▒████▒ ▒▄▄  
+       ██▒▒▒ ░ ▒░▒░▒░ ░▒▓▒ ▒ ▒    ░ ▒░▓  ░░ ▒░▒░▒░ ▒ ▒▓▒ ▒ ░░░ ▒░ ░ ░▀▀▒ 
+     ▓██ ░▒░   ░ ▒ ▒░ ░░▒░ ░ ░    ░ ░ ▒  ░  ░ ▒ ▒░ ░ ░▒  ░ ░ ░ ░  ░ ░  ░ 
+     ▒ ▒ ░░  ░ ░ ░ ▒   ░░░ ░ ░      ░ ░   ░ ░ ░ ▒  ░  ░  ░     ░       ░ 
+     ░ ░         ░ ░     ░            ░  ░    ░ ░        ░     ░  ░ ░    
+     ░ ░                                                                 
+    \033[0m
+                             Press R to restart.
+                             Press Enter to quit.
+            """)
+        # Printing the win screen.
+        if alive:
+            os.system("cls")
+            print("""\033[92m
+    ██╗   ██╗ ██████╗ ██╗   ██╗    ██╗    ██╗██╗███╗   ██╗██╗
+    ╚██╗ ██╔╝██╔═══██╗██║   ██║    ██║    ██║██║████╗  ██║██║
+     ╚████╔╝ ██║   ██║██║   ██║    ██║ █╗ ██║██║██╔██╗ ██║██║
+      ╚██╔╝  ██║   ██║██║   ██║    ██║███╗██║██║██║╚██╗██║╚═╝
+       ██║   ╚██████╔╝╚██████╔╝    ╚███╔███╔╝██║██║ ╚████║██╗
+       ╚═╝    ╚═════╝  ╚═════╝      ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝╚═╝
+    \033[0m
+                       Press R to restart.
+                       Press Enter to quit.
+            """)
+        # If the user wants to restart.
+        while True:
+            if keyboard.read_key() == "r":
+                restart = True
+                break
+            elif keyboard.read_key() == "enter":
+                restart = False
+                break
 
 
 if __name__ == "__main__":

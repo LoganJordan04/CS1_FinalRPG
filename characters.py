@@ -55,19 +55,19 @@ class Hero(Character):
         if self.potions <= 0:
             pass
         else:
-            if self.health >= self.health_max - 100:
+            if self.health >= self.health_max - 125:
                 self.heal_amount = self.health_max - self.health
             else:
-                self.heal_amount = 100
+                self.heal_amount = 125
             self.health += self.heal_amount
             self.health_bar.update()
             self.potions -= 1
 
     def heal_update(self):
-        if self.health >= self.health_max - 100:
+        if self.health >= self.health_max - 125:
             self.heal_amount = self.health_max - self.health
         else:
-            self.heal_amount = 100
+            self.heal_amount = 125
 
     def heal_print(self):
         if self.potions <= 0:
@@ -301,15 +301,15 @@ class Enemy(Character):
 
 
 # Enemy instances
-slime = Enemy("Slime", 30, fists, 6)
-rat = Enemy("Rat", 20, teeth, 4)
-goblin = Enemy("Goblin", 50, fists, 10)
-skeleton = Enemy("Skeleton", 60, fists, 8)
+slime = Enemy("Slime", 40, fists, 6)
+rat = Enemy("Rat", 30, teeth, 4)
+goblin = Enemy("Goblin", 60, fists, 10)
+skeleton = Enemy("Skeleton", 50, fists, 8)
 goblin_thief = Enemy("Goblin Thief", 100, dagger, 16)
 sword_warrior = Enemy("Sword Warrior", 120, iron_sword, 12)
 axe_warrior = Enemy("Axe Warrior", 110, iron_axe, 13)
-goblin_mage = Enemy("Goblin Mage", 90, staff, 20)
-undead_mage = Enemy("Undead Mage", 100, staff, 17)
+goblin_mage = Enemy("Goblin Mage", 100, staff, 20)
+undead_mage = Enemy("Undead Mage", 90, staff, 17)
 sword_knight = Enemy("Sword Knight", 160, iron_greatsword, 32)
 axe_knight = Enemy("Axe Knight", 150, iron_battleaxe, 31)
 

@@ -1,4 +1,4 @@
-# CS1 Final Project: Wings of Redemption
+# Wings of Redemption Text Based RPG
 
 ## **WARNING: Please don't run main.py in an IDE, i.e. Pycharm or Thonny!**
 **This **will** cause printing problems!** This game was designed for the basic windows python terminal.
